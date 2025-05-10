@@ -12,6 +12,7 @@
   <link rel="icon" type="img/png" href="favicon-32x32.png">
   <!--Using Boxicon website for Social Media icons-->
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.css' rel='stylesheet'>
 </head>
 
 <body>
@@ -26,6 +27,7 @@
       <a href="#about">About</a>
       <a href="#education">Education</a>
       <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
 
       <span class="active-nav"></span>
@@ -35,7 +37,7 @@
   <!--Home Section Design-->
   <section class="home show-animate" id="home">
     <div class="home-content">
-      <h1>I'm <span>Muneeb Shafique</span><span class="animate" style="--i:2"></span></h1>
+      <h1>I'm <span>Muneeb Shafiq</span><span class="animate" style="--i:2"></span></h1>
       <div class="text-animate">
         <h3>Data Scientist & AI Enthusiast</h3>
         <span class="animate" style="--i:3"></span>
@@ -52,13 +54,16 @@
       </div>
     </div>
     <div class="home-sci">
-      <a href="https://github.com/munib123" target="_blank"><i class='bx bxl-github'></i></a>
-      <a href="https://www.linkedin.com/in/muneeb-zehel/" target="_blank"><i class='bx bxl-linkedin'></i></a>
-      <span class="animate" style="--i:6"></span>
+      <a href="https://github.com/munib123" target="_blank" style="color: #00abf0; font-size: 24px;">
+        <i class='bx bxl-github'></i>
+      </a>
+      <a href="https://www.linkedin.com/in/muneeb-zehel/" target="_blank" style="color: #00abf0; font-size: 24px;">
+        <i class='bx bxl-linkedin'></i>
+      </a>
     </div>
     <!-- Adjusting the Picture -->
-    <div class="pic">
-      <img src="muneeb-portfolio.png" class="mun">
+    <div class="pic" style="background-color: #0d78a2;">
+      <img src="muneeb.jpg" alt="Muneeb's Profile Picture" class="mun" style="display: block; max-width: 100%;">
     </div>
     <span class="animate home-img" style="--i:7"></span>
   </section>
@@ -67,7 +72,7 @@
     <h2 class="heading">About <span>Me</span><span class="animate scroll" style="--i:1;"></span></h2>
 
     <div class="about-img">
-      <img src="mun-abt.jpg" alt="">
+      <img src="muneeb.jpg" alt="">
       <span class="circle-spin"></span>
       <span class="animate scroll" style="--i:2;"></span>
     </div>
@@ -101,8 +106,7 @@
             <div class="content">
               <div class="year"><i class='bx bxs-calendar'></i>2021 - 2023</div>
               <h3>Intermediate - Punjab College</h3>
-              <p>Pursued FSc Pre-Engineering, gaining expertise in advanced mathematics, physics, 
-                 and computer science fundamentals.</p>
+              
             </div>
           </div>
 
@@ -153,77 +157,163 @@
   <section class="skills" id="skills">
     <h2 class="heading">My <span>Skills</span><span class="animate scroll" style="--i:1;"></span></h2>
 
-    <div class="skills-row">
-      <div class="skills-column">
-        <h3 class="title">Coding Skills<span class="animate scroll" style="--i:2;"></span></h3>
-
-        <div class="skills-box">
-          <div class="skills-content">
-            <div class="progress">
-              <h3>Python <span>85%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
-
-            <div class="progress">
-              <h3>SQL <span>80%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
-
-            <div class="progress">
-              <h3>Machine Learning <span>75%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
-
-            <div class="progress">
-              <h3>Data Analysis <span>85%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
-          </div>
-
-          <span class="animate scroll" style="--i:3;"></span>
-        </div>
+    <div class="skills-container">
+      <!-- Programming Languages & Tools -->
+      <div class="skill-box">
+        <i class='bx bxl-python'></i>
+        <h3>Python</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bxs-data'></i>
+        <h3>SQL</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-line-chart'></i>
+        <h3>Power BI</h3>
       </div>
 
-      <div class="skills-column">
-        <h3 class="title">Professional Skills<span class="animate scroll" style="--i:5;"></span></h3>
+      <!-- Data Science Libraries -->
+      <div class="skill-box">
+        <i class='bx bx-table'></i>
+        <h3>Pandas</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-calculator'></i>
+        <h3>NumPy</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-bar-chart-alt-2'></i>
+        <h3>Matplotlib</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-chart'></i>
+        <h3>Seaborn</h3>
+      </div>
 
-        <div class="skills-box">
-          <div class="skills-content">
-            <div class="progress">
-              <h3>Statistical Knowledge <span>95%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
+      <!-- Machine Learning -->
+      <div class="skill-box">
+        <i class='bx bx-brain'></i>
+        <h3>Scikit-learn</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-network-chart'></i>
+        <h3>TensorFlow</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-cube'></i>
+        <h3>Model Development</h3>
+      </div>
 
-            <div class="progress">
-              <h3>Domain Expertise <span>90%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
+      <!-- Visualization & Analysis -->
+      <div class="skill-box">
+        <i class='bx bx-pie-chart-alt-2'></i>
+        <h3>Power BI Dashboards</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-palette'></i>
+        <h3>Python Visualization</h3>
+      </div>
 
-            <div class="progress">
-              <h3>Problem Solving <span>90%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
-
-            <div class="progress">
-              <h3>Team Leadership <span>85%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
-
-            <div class="progress">
-              <h3>Research & Analysis <span>80%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
-
-            <div class="progress">
-              <h3>Technical Communication <span>85%</span></h3>
-              <div class="bar"><span></span></div>
-            </div>
-          </div>
-          <span class="animate scroll" style="--i:6;"></span>
-        </div>
+      <!-- Soft Skills -->
+      <div class="skill-box">
+        <i class='bx bx-bulb'></i>
+        <h3>Problem-Solving</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-code-alt'></i>
+        <h3>Competitive Programming</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-message-dots'></i>
+        <h3>Communication</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-group'></i>
+        <h3>Team Collaboration</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-user-voice'></i>
+        <h3>Leadership</h3>
       </div>
     </div>
   </section>
+
+  <!--Projects Section Design-->
+  <section class="projects show-animate" id="projects">
+    <h2 class="heading">My <span>Projects</span><span class="animate scroll" style="--i:1;"></span></h2>
+
+    <div class="projects-container">
+      <!-- Project 1 -->
+      <div class="project-box">
+        <div class="project-icon">
+          <i class='bx bx-trip'></i>
+        </div>
+        <h3>Tour Planning AI Assistant</h3>
+        <div class="tech-stack">
+          <span>Python</span>
+          <span>Gradio</span>
+          <span>Groq</span>
+          <span>Hugging Face</span>
+        </div>
+        <p>Created a Python-based web app using Gradio, integrating Groq API and Hugging Face models for personalized travel itineraries. Combined Hugging Face transformers and Groq's inference to deliver accurate, real-time travel recommendations. Developed a modular Python backend and intuitive Gradio front-end, deployed on Hugging Face Spaces for global access.</p>
+        <a href="#" class="project-link">View Project <i class='bx bx-link-external'></i></a>
+        <span class="animate scroll" style="--i:2;"></span>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-box">
+        <div class="project-icon">
+          <i class='bx bx-bar-chart-alt-2'></i>
+        </div>
+        <h3>Chicago Crime Rate Analysis</h3>
+        <div class="tech-stack">
+          <span>PowerBI</span>
+          <span>Pandas</span>
+          <span>NumPy</span>
+          <span>MSSQL</span>
+        </div>
+        <p>Utilized Pandas and NumPy for data cleaning and preprocessing of large crime datasets, ensuring data accuracy and consistency. Developed interactive PowerBI dashboards to visualize crime trends, patterns, and hotspots across Chicago neighborhoods. Integrated MSSQL for efficient data storage and retrieval, enabling scalable analysis of historical crime data.</p>
+        <a href="#" class="project-link">View Project <i class='bx bx-link-external'></i></a>
+        <span class="animate scroll" style="--i:3;"></span>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-box">
+        <div class="project-icon">
+          <i class='bx bx-pie-chart-alt-2'></i>
+        </div>
+        <h3>Developers Survey Analysis Report</h3>
+        <div class="tech-stack">
+          <span>Pandas</span>
+          <span>NumPy</span>
+          <span>Matplotlib</span>
+          <span>Seaborn</span>
+          <span>MSSQL</span>
+        </div>
+        <p>Analyzed survey data using Pandas and NumPy to identify key trends in developer preferences. Created compelling visualizations with Matplotlib and Seaborn. Leveraged MSSQL to manage and query large survey datasets, optimizing data processing.</p>
+        <a href="#" class="project-link">View Project <i class='bx bx-link-external'></i></a>
+        <span class="animate scroll" style="--i:4;"></span>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-box">
+        <div class="project-icon">
+          <i class='bx bx-credit-card'></i>
+        </div>
+        <h3>Credit Card Transaction Analysis</h3>
+        <div class="tech-stack">
+          <span>PowerBI</span>
+          <span>Pandas</span>
+          <span>NumPy</span>
+          <span>MSSQL</span>
+        </div>
+        <p>Processed and analyzed weekly transaction data using Pandas and NumPy. Designed dynamic PowerBI reports to visualize transaction trends. Managed data storage and retrieval with MSSQL, ensuring efficient handling.</p>
+        <a href="#" class="project-link">View Project <i class='bx bx-link-external'></i></a>
+        <span class="animate scroll" style="--i:5;"></span>
+      </div>
+    </div>
+  </section>
+
   <!--Contact Section Design-->
   <section class="contact" id="contact">
     <h2 class="heading">Contact <span>Me!</span><span class="animate scroll" style="--i:1;"></span></h2>
