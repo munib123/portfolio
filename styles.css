@@ -88,19 +88,20 @@ section {
 /* Styling of pic */
 .pic {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(0, 171, 240, 0.5);
+  z-index: 99;
 }
+
 .pic img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  display: block;
 }
 
 .pic .mun {
@@ -123,6 +124,7 @@ section {
   padding: 0 9%;
   background-size: cover;
   background-position: center;
+  position: relative;
 }
 
 .home-content {
@@ -193,9 +195,11 @@ section {
 .btn-box {
   position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 34.5rem;
   height: 5rem;
+  margin-bottom: 60px;
+  padding-left: 10px;
 }
 
 .btn-box .btn {
@@ -252,9 +256,12 @@ section {
 
 .home-sci {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 99;
+  padding-left: 20px;
 }
 
 .home-sci a {
