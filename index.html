@@ -16,7 +16,12 @@
 </head>
 
 <body>
-  <!-- header bar with linking buuttons -->
+  <!-- Loading overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- header bar with linking buttons -->
   <header class="header">
     <a href="#" class="logo">Muneeb.<span class="animate" style="--i:1"></span></a>
 
@@ -26,7 +31,9 @@
       <a href="#home" class="active">Home</a>
       <a href="#about">About</a>
       <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
+      <a href="#certificates">Certificates</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
 
@@ -49,7 +56,7 @@
       </p>
 
       <div class="btn-box">
-        <a href="Munib_resume.pdf" download class="btn">Resume</a>
+        <a href="Munib_resume.pdf" target="_blank" class="btn" id="resumeBtn">Resume</a>
         <span class="animate" style="--i:5"></span>
       </div>
 
@@ -95,19 +102,18 @@
   </section>
   <!--Education Section Design-->
   <section class="education" id="education">
-    <h2 class="heading">My <span>Journey</span><span class="animate scroll" style="--i:1;"></span></h2>
+    <h2 class="heading">My <span>Education</span><span class="animate scroll" style="--i:1;"></span></h2>
 
     <div class="education-row">
       <div class="education-column">
-        <h3 class="title">Education<span class="animate scroll" style="--i:2;"></span></h3>
+        <h3 class="title">Academic Journey<span class="animate scroll" style="--i:2;"></span></h3>
 
-        
-
+        <div class="education-box">
           <div class="education-content">
             <div class="content">
               <div class="year"><i class='bx bxs-calendar'></i>2021 - 2023</div>
               <h3>Intermediate - Punjab College</h3>
-              
+              <p>Completed intermediate studies with a focus on Computer Science fundamentals and mathematics.</p>
             </div>
           </div>
 
@@ -123,17 +129,33 @@
           <span class="animate scroll" style="--i:3;"></span>
         </div>
       </div>
+    </div>
+  </section>
 
+  <!--Experience Section Design-->
+  <section class="experience" id="experience">
+    <h2 class="heading">My <span>Experience</span><span class="animate scroll" style="--i:1;"></span></h2>
+
+    <div class="education-row">
       <div class="education-column">
-        <h3 class="title">Experience<span class="animate scroll" style="--i:5;"></span></h3>
+        <h3 class="title">Professional Journey<span class="animate scroll" style="--i:2;"></span></h3>
 
         <div class="education-box">
           <div class="education-content">
             <div class="content">
+              <div class="year"><i class='bx bxs-calendar'></i>May 2025 - Present</div>
+              <h3>Freelance Data Analyst - Fiverr</h3>
+              <p>Completed 5 data analysis projects with an average client rating of 4.8/5. 
+                 Specialized in data visualization, statistical analysis, and delivering actionable business insights.</p>
+            </div>
+          </div>
+
+          <div class="education-content">
+            <div class="content">
               <div class="year"><i class='bx bxs-calendar'></i>2023 - Present</div>
               <h3>Campus Ambassador - Devsinc</h3>
-              <p>Arranged Industry tours to minimize the difference between Industry and academia
-                Arranges Workshops on Ai/ML/Data Analysis.</p>
+              <p>Arranged Industry tours to minimize the difference between Industry and academia.
+                Arranges Workshops on AI/ML/Data Analysis.</p>
             </div>
           </div>
 
@@ -147,9 +169,7 @@
             </div>
           </div>
 
-          
-
-          <span class="animate scroll" style="--i:6;"></span>
+          <span class="animate scroll" style="--i:3;"></span>
         </div>
       </div>
     </div>
@@ -201,6 +221,10 @@
         <h3>TensorFlow</h3>
       </div>
       <div class="skill-box">
+        <i class='bx bx-cube-alt'></i>
+        <h3>PyTorch</h3>
+      </div>
+      <div class="skill-box">
         <i class='bx bx-cube'></i>
         <h3>Model Development</h3>
       </div>
@@ -213,6 +237,20 @@
       <div class="skill-box">
         <i class='bx bx-palette'></i>
         <h3>Python Visualization</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bx-window'></i>
+        <h3>Streamlit</h3>
+      </div>
+
+      <!-- Big Data & Version Control -->
+      <div class="skill-box">
+        <i class='bx bx-data'></i>
+        <h3>Hadoop</h3>
+      </div>
+      <div class="skill-box">
+        <i class='bx bxl-git'></i>
+        <h3>Git</h3>
       </div>
 
       <!-- Soft Skills -->
@@ -257,7 +295,7 @@
           <span>Hugging Face</span>
         </div>
         <p>Created a Python-based web app using Gradio, integrating Groq API and Hugging Face models for personalized travel itineraries. Combined Hugging Face transformers and Groq's inference to deliver accurate, real-time travel recommendations. Developed a modular Python backend and intuitive Gradio front-end, deployed on Hugging Face Spaces for global access.</p>
-        <a href="#" class="project-link">View Project <i class='bx bx-link-external'></i></a>
+        <a href="https://github.com/munib123/Travel_Assistance_Chatbot" class="project-link" target="_blank">View Project <i class='bx bx-link-external'></i></a>
         <span class="animate scroll" style="--i:2;"></span>
       </div>
 
@@ -274,7 +312,7 @@
           <span>MSSQL</span>
         </div>
         <p>Utilized Pandas and NumPy for data cleaning and preprocessing of large crime datasets, ensuring data accuracy and consistency. Developed interactive PowerBI dashboards to visualize crime trends, patterns, and hotspots across Chicago neighborhoods. Integrated MSSQL for efficient data storage and retrieval, enabling scalable analysis of historical crime data.</p>
-        <a href="#" class="project-link">View Project <i class='bx bx-link-external'></i></a>
+        <a href="https://github.com/munib123/Budget-Management-System" class="project-link" target="_blank">View Project <i class='bx bx-link-external'></i></a>
         <span class="animate scroll" style="--i:3;"></span>
       </div>
 
@@ -292,7 +330,7 @@
           <span>MSSQL</span>
         </div>
         <p>Analyzed survey data using Pandas and NumPy to identify key trends in developer preferences. Created compelling visualizations with Matplotlib and Seaborn. Leveraged MSSQL to manage and query large survey datasets, optimizing data processing.</p>
-        <a href="#" class="project-link">View Project <i class='bx bx-link-external'></i></a>
+        <a href="https://github.com/munib123/Devs_Survey_2024" class="project-link" target="_blank">View Project <i class='bx bx-link-external'></i></a>
         <span class="animate scroll" style="--i:4;"></span>
       </div>
 
@@ -309,8 +347,209 @@
           <span>MSSQL</span>
         </div>
         <p>Processed and analyzed weekly transaction data using Pandas and NumPy. Designed dynamic PowerBI reports to visualize transaction trends. Managed data storage and retrieval with MSSQL, ensuring efficient handling.</p>
-        <a href="#" class="project-link">View Project <i class='bx bx-link-external'></i></a>
+        <a href="https://github.com/munib123/Credit_card_transaction-_report" class="project-link" target="_blank">View Project <i class='bx bx-link-external'></i></a>
         <span class="animate scroll" style="--i:5;"></span>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="project-box">
+        <div class="project-icon">
+          <i class='bx bx-shield-alt-2'></i>
+        </div>
+        <h3>Loan Sherlock</h3>
+        <div class="tech-stack">
+          <span>Python</span>
+          <span>Scikit-learn</span>
+          <span>Streamlit</span>
+          <span>Plotly</span>
+        </div>
+        <p>Implemented random forest, LightGBM and logistic regression models, achieving 97% accuracy in fraud detection along with advanced feature engineering techniques. Built an interactive Streamlit dashboard with Plotly visualizations for real-time fraud analysis and model predictions.</p>
+        <a href="https://github.com/munib123/Loan-Sherlock" class="project-link" target="_blank">View Project <i class='bx bx-link-external'></i></a>
+        <span class="animate scroll" style="--i:6;"></span>
+      </div>
+
+      <!-- Project 6 -->
+      <div class="project-box">
+        <div class="project-icon">
+          <i class='bx bx-book-reader'></i>
+        </div>
+        <h3>DocSpeak</h3>
+        <div class="tech-stack">
+          <span>Python</span>
+          <span>RAG</span>
+          <span>Streamlit</span>
+          <span>Gemini API</span>
+        </div>
+        <p>DocSpeak is an AI-powered Retrieval-Augmented Generation (RAG) system that enables users to upload PDF or DOCX documents, ask questions, and receive accurate, context-aware responses. Leverages advanced NLP techniques for intelligent document querying.</p>
+        <a href="https://github.com/munib123/DocSpeak" class="project-link" target="_blank">View Project <i class='bx bx-link-external'></i></a>
+        <span class="animate scroll" style="--i:7;"></span>
+      </div>
+
+      <!-- Project 7 -->
+      <div class="project-box">
+        <div class="project-icon">
+          <i class='bx bx-code-curly'></i>
+        </div>
+        <h3>Portfolio Website</h3>
+        <div class="tech-stack">
+          <span>JavaScript</span>
+          <span>CSS</span>
+          <span>HTML</span>
+          <span>Google Sheets API</span>
+        </div>
+        <p>Created a responsive portfolio with proper color scheme, smooth animations, and separate sections for different content areas. Added a dynamic Contact page integrated with Google Sheets API for database storage, enabling seamless form submissions and data management.</p>
+        <a href="https://github.com/munib123/portfolio" class="project-link" target="_blank">View Project <i class='bx bx-link-external'></i></a>
+        <span class="animate scroll" style="--i:8;"></span>
+      </div>
+    </div>
+  </section>
+
+  <!--Certificates Section Design-->
+  <section class="certificates" id="certificates">
+    <h2 class="heading">My <span>Certificates</span><span class="animate scroll" style="--i:1;"></span></h2>
+
+    <div class="certificates-container">
+      <div class="certificates-slider" id="certificatesSlider">
+        <!-- Certificate 1 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-award'></i>
+            </div>
+            <h3>Tools For Data Science</h3>
+            <p class="certificate-issuer">Coursera</p>
+            <p class="certificate-description">Comprehensive training on essential data science tools and technologies</p>
+            <a href="certificates/Coursera Tools For Data Science.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+
+        <!-- Certificate 2 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-brain'></i>
+            </div>
+            <h3>Machine Learning & Deep Learning</h3>
+            <p class="certificate-issuer">Professional Certification</p>
+            <p class="certificate-description">Advanced machine learning algorithms and deep learning techniques</p>
+            <a href="certificates/deeplearning ML 1.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+
+        <!-- Certificate 3 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-data'></i>
+            </div>
+            <h3>ETL & Data Analysis</h3>
+            <p class="certificate-issuer">Data Analytics Institute</p>
+            <p class="certificate-description">Extract, Transform, Load processes and advanced data analysis techniques</p>
+            <a href="certificates/etl_data analysis.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+
+        <!-- Certificate 4 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-bar-chart-alt-2'></i>
+            </div>
+            <h3>Power BI Mastery</h3>
+            <p class="certificate-issuer">Microsoft Learning</p>
+            <p class="certificate-description">Harnessing the power of data with advanced Power BI techniques</p>
+            <a href="certificates/Harnessing the power of data with power bi.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+
+        <!-- Certificate 5 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-calculator'></i>
+            </div>
+            <h3>Linear Algebra for Deep Learning</h3>
+            <p class="certificate-issuer">Mathematics Institute</p>
+            <p class="certificate-description">Mathematical foundations for deep learning and neural networks</p>
+            <a href="certificates/Linear_Algebra_deep_learning.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+
+        <!-- Certificate 6 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-spreadsheet'></i>
+            </div>
+            <h3>Data Analysis with Excel</h3>
+            <p class="certificate-issuer">Microsoft Excel Certification</p>
+            <p class="certificate-description">Preparing and analyzing data using advanced Microsoft Excel techniques</p>
+            <a href="certificates/Preparing Data for Analysis with Microsoft Excel.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+
+        <!-- Certificate 7 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-data'></i>
+            </div>
+            <h3>Advanced SQL</h3>
+            <p class="certificate-issuer">Database Institute</p>
+            <p class="certificate-description">Advanced SQL queries, optimization, and database management</p>
+            <a href="certificates/sql_advanced certificate.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+
+        <!-- Certificate 8 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-cylinder'></i>
+            </div>
+            <h3>SQL Fundamentals</h3>
+            <p class="certificate-issuer">Database Institute</p>
+            <p class="certificate-description">Basic SQL operations and database fundamentals</p>
+            <a href="certificates/sql_basic certificate.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+
+        <!-- Certificate 9 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-server'></i>
+            </div>
+            <h3>Intermediate SQL</h3>
+            <p class="certificate-issuer">Database Institute</p>
+            <p class="certificate-description">Intermediate SQL concepts and query optimization techniques</p>
+            <a href="certificates/sql_intermediate certificate.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+
+        <!-- Certificate 10 -->
+        <div class="certificate-slide">
+          <div class="certificate-box">
+            <div class="certificate-icon">
+              <i class='bx bx-chart'></i>
+            </div>
+            <h3>What is Data Science</h3>
+            <p class="certificate-issuer">IBM - Coursera</p>
+            <p class="certificate-description">Introduction to data science fundamentals and methodologies</p>
+            <a href="certificates/what is data science IBM COURSERA.pdf" target="_blank" class="certificate-link">View Certificate <i class='bx bx-link-external'></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slider Controls -->
+      <div class="slider-controls">
+        <button class="slider-btn prev-btn" id="prevBtn">
+          <i class='bx bx-chevron-left'></i>
+        </button>
+        <div class="slider-dots" id="sliderDots"></div>
+        <button class="slider-btn next-btn" id="nextBtn">
+          <i class='bx bx-chevron-right'></i>
+        </button>
       </div>
     </div>
   </section>
