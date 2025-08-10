@@ -90,34 +90,66 @@
                 console.log(key + ':', value);
             }
             
+            // Try JSON method first
             try {
                 const response = await fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
                     headers: {
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: formData
+                    body: JSON.stringify({
+                        access_key: formData.get('access_key'),
+                        name: formData.get('name'),
+                        email: formData.get('email'),
+                        subject: formData.get('subject'),
+                        message: formData.get('message')
+                    })
                 });
                 
                 console.log('Response status:', response.status);
-                const responseText = await response.text();
-                console.log('Response text:', responseText);
                 
-                const data = JSON.parse(responseText);
-                console.log('Response data:', data);
-                
-                if (data.success) {
-                    messageDiv.textContent = 'Success! Test message sent.';
-                    messageDiv.className = 'message success';
-                    messageDiv.style.display = 'block';
-                    this.reset();
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Response data:', data);
+                    
+                    if (data.success) {
+                        messageDiv.textContent = 'Success! Test message sent.';
+                        messageDiv.className = 'message success';
+                        messageDiv.style.display = 'block';
+                        this.reset();
+                        return;
+                    } else {
+                        throw new Error(data.message || 'Unknown error');
+                    }
                 } else {
-                    messageDiv.textContent = 'Error: ' + (data.message || 'Unknown error');
-                    messageDiv.className = 'message error';
-                    messageDiv.style.display = 'block';
+                    throw new Error(`HTTP ${response.status}`);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('JSON method failed:', error);
+                
+                // Try FormData method as fallback
+                try {
+                    console.log('Trying FormData fallback...');
+                    const fallbackResponse = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (fallbackResponse.ok) {
+                        const fallbackData = await fallbackResponse.json();
+                        if (fallbackData.success) {
+                            messageDiv.textContent = 'Success! Test message sent (via fallback).';
+                            messageDiv.className = 'message success';
+                            messageDiv.style.display = 'block';
+                            this.reset();
+                            return;
+                        }
+                    }
+                } catch (fallbackError) {
+                    console.error('Fallback also failed:', fallbackError);
+                }
+                
                 messageDiv.textContent = 'Error: ' + error.message;
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';

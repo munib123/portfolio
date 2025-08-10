@@ -751,56 +751,128 @@ function initializeContactForm() {
     console.log('Subject:', formData.get('subject'));
     console.log('Message:', formData.get('message'));
 
+    // Try multiple methods for maximum compatibility
+    let success = false;
+
+    // Method 1: JSON format (preferred)
     try {
+      console.log('Trying JSON method...');
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: formData
+        body: JSON.stringify({
+          access_key: '59f4edff-8d09-480e-bde5-17e5328595af',
+          name: formData.get('name'),
+          email: formData.get('email'),
+          phone: formData.get('phone') || '',
+          subject: formData.get('subject'),
+          message: formData.get('message')
+        })
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-
-      const responseText = await response.text();
-      console.log('Response text:', responseText);
-
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('Failed to parse response as JSON:', parseError);
-        throw new Error('Invalid response from server');
-      }
-
-      console.log('Parsed response data:', data);
-
-      if (response.ok && data.success) {
-        showMessage('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
-        form.reset();
+      if (response.ok) {
+        const data = await response.json();
+        console.log('JSON method response:', data);
+        
+        if (data.success) {
+          showMessage('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
+          form.reset();
+          success = true;
+        } else {
+          throw new Error(data.message || 'Failed to send message');
+        }
       } else {
-        console.error('Web3Forms error:', data);
-        const errorMessage = data.message || `Server returned status ${response.status}`;
-        showMessage(`Failed to send message: ${errorMessage}`, 'error');
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
     } catch (error) {
-      console.error('Form submission error:', error);
-      
-      // More specific error messages
-      if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        showMessage('Network error. Please check your internet connection and try again.', 'error');
-      } else if (error.message.includes('Invalid response')) {
-        showMessage('Server error. Please try again in a few moments.', 'error');
-      } else {
-        showMessage(`Error: ${error.message}. Please try again or contact me directly.`, 'error');
-      }
-    } finally {
-      // Remove loading state
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
+      console.log('JSON method failed:', error);
     }
+
+    // Method 2: FormData (fallback)
+    if (!success) {
+      try {
+        console.log('Trying FormData method...');
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('FormData method response:', data);
+          
+          if (data.success) {
+            showMessage('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
+            form.reset();
+            success = true;
+          } else {
+            throw new Error(data.message || 'Failed to send message');
+          }
+        } else {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+      } catch (error) {
+        console.log('FormData method failed:', error);
+      }
+    }
+
+    // Method 3: XMLHttpRequest (final fallback)
+    if (!success) {
+      try {
+        console.log('Trying XMLHttpRequest method...');
+        await submitWithXHR(formData);
+        showMessage('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
+        form.reset();
+        success = true;
+      } catch (error) {
+        console.log('XMLHttpRequest method failed:', error);
+      }
+    }
+
+    // If all methods fail
+    if (!success) {
+      showMessage('Unable to send message. Please try again later or contact me directly at your-email@example.com', 'error');
+    }
+
+    // Remove loading state
+    submitBtn.classList.remove('loading');
+    submitBtn.disabled = false;
   });
+
+  // XMLHttpRequest fallback method
+  function submitWithXHR(formData) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://api.web3forms.com/submit');
+      xhr.setRequestHeader('Accept', 'application/json');
+      
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          try {
+            const data = JSON.parse(xhr.responseText);
+            if (data.success) {
+              resolve(data);
+            } else {
+              reject(new Error(data.message || 'XHR: Failed to send message'));
+            }
+          } catch (e) {
+            reject(new Error('XHR: Invalid response format'));
+          }
+        } else {
+          reject(new Error(`XHR: HTTP ${xhr.status}`));
+        }
+      };
+      
+      xhr.onerror = function() {
+        reject(new Error('XHR: Network error'));
+      };
+      
+      xhr.send(formData);
+    });
+  }
 
   function validateForm() {
     const name = form.querySelector('input[name="name"]').value.trim();
@@ -852,35 +924,64 @@ document.addEventListener('DOMContentLoaded', function() {
 async function testWeb3FormsConnection() {
   console.log('Testing Web3Forms connection...');
   
-  const testData = new FormData();
-  testData.append('access_key', '59f4edff-8d09-480e-bde5-17e5328595af');
-  testData.append('name', 'Test User');
-  testData.append('email', 'test@example.com');
-  testData.append('subject', 'Test Subject');
-  testData.append('message', 'This is a test message to verify Web3Forms integration.');
-  
   try {
+    // Test with JSON format first
     const response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: testData
+      body: JSON.stringify({
+        access_key: '59f4edff-8d09-480e-bde5-17e5328595af',
+        name: 'Test User',
+        email: 'test@example.com',
+        subject: 'Test Subject',
+        message: 'This is a test message to verify Web3Forms integration.'
+      })
     });
     
-    const responseText = await response.text();
     console.log('Test response status:', response.status);
-    console.log('Test response text:', responseText);
+    console.log('Test response ok:', response.ok);
     
-    const data = JSON.parse(responseText);
-    console.log('Test response data:', data);
-    
-    if (data.success) {
-      console.log('✅ Web3Forms connection successful!');
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Test response data:', data);
+      
+      if (data.success) {
+        console.log('✅ Web3Forms connection successful!');
+      } else {
+        console.log('❌ Web3Forms test failed:', data.message);
+      }
     } else {
-      console.log('❌ Web3Forms test failed:', data.message);
+      console.log('❌ HTTP Error:', response.status, response.statusText);
     }
   } catch (error) {
     console.log('❌ Web3Forms test error:', error);
+    
+    // Try fallback with FormData
+    console.log('Trying fallback test with FormData...');
+    try {
+      const testData = new FormData();
+      testData.append('access_key', '59f4edff-8d09-480e-bde5-17e5328595af');
+      testData.append('name', 'Test User');
+      testData.append('email', 'test@example.com');
+      testData.append('subject', 'Test Subject');
+      testData.append('message', 'This is a fallback test message.');
+      
+      const fallbackResponse = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: testData
+      });
+      
+      if (fallbackResponse.ok) {
+        const fallbackData = await fallbackResponse.json();
+        console.log('✅ Fallback test successful:', fallbackData);
+      } else {
+        console.log('❌ Fallback test failed:', fallbackResponse.status);
+      }
+    } catch (fallbackError) {
+      console.log('❌ Fallback test also failed:', fallbackError);
+    }
   }
 }
