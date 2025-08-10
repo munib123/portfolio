@@ -20,7 +20,7 @@ window.addEventListener('load', () => {
       initializeResumeButton();
       // Initialize project links
       initializeProjectLinks();
-      // Initialize contact form
+      // Initialize contact form - moved here to avoid duplicate initialization
       initializeContactForm();
     }, 400);
   }, 800);
@@ -713,7 +713,17 @@ document.addEventListener('keydown', function(e) {
 });
 
 // Web3Forms Contact Form Integration
+let contactFormInitialized = false;
+let lastSubmissionTime = 0;
+const SUBMISSION_COOLDOWN = 3000; // 3 seconds between submissions
+
 function initializeContactForm() {
+  // Prevent multiple initializations
+  if (contactFormInitialized) {
+    console.log('Contact form already initialized, skipping...');
+    return;
+  }
+
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
   const formMessage = document.getElementById('form-message');
@@ -723,16 +733,42 @@ function initializeContactForm() {
     return;
   }
 
+  // Check if form already has event listeners
+  if (form.hasAttribute('data-initialized')) {
+    console.log('Contact form already has event listeners, skipping...');
+    return;
+  }
+
+  // Mark as initialized
+  contactFormInitialized = true;
+  form.setAttribute('data-initialized', 'true');
   console.log('Contact form initialized successfully');
 
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
+
+    // Prevent double submission - check if already processing
+    if (submitBtn.disabled) {
+      console.log('Form submission already in progress, preventing duplicate...');
+      return;
+    }
+
+    // Prevent rapid successive submissions
+    const currentTime = Date.now();
+    if (currentTime - lastSubmissionTime < SUBMISSION_COOLDOWN) {
+      console.log('Submission too soon after last attempt, throttling...');
+      showMessage('Please wait a moment before submitting again.', 'error');
+      return;
+    }
 
     // Validate form before submission
     if (!validateForm()) {
       showMessage('Please fill in all required fields correctly.', 'error');
       return;
     }
+
+    // Update last submission time
+    lastSubmissionTime = currentTime;
 
     // Show loading state
     submitBtn.classList.add('loading');
@@ -912,76 +948,11 @@ function initializeContactForm() {
   }
 }
 
-// Initialize contact form when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  initializeContactForm();
-  
-  // Test Web3Forms connection (remove this after testing)
-  testWeb3FormsConnection();
-});
+// Contact form will be initialized from the load event handler above
+// Removed duplicate DOMContentLoaded initialization to prevent double email sending
 
-// Test function to validate Web3Forms setup
-async function testWeb3FormsConnection() {
-  console.log('Testing Web3Forms connection...');
-  
-  try {
-    // Test with JSON format first
-    const response = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        access_key: '59f4edff-8d09-480e-bde5-17e5328595af',
-        name: 'Test User',
-        email: 'test@example.com',
-        subject: 'Test Subject',
-        message: 'This is a test message to verify Web3Forms integration.'
-      })
-    });
-    
-    console.log('Test response status:', response.status);
-    console.log('Test response ok:', response.ok);
-    
-    if (response.ok) {
-      const data = await response.json();
-      console.log('Test response data:', data);
-      
-      if (data.success) {
-        console.log('✅ Web3Forms connection successful!');
-      } else {
-        console.log('❌ Web3Forms test failed:', data.message);
-      }
-    } else {
-      console.log('❌ HTTP Error:', response.status, response.statusText);
-    }
-  } catch (error) {
-    console.log('❌ Web3Forms test error:', error);
-    
-    // Try fallback with FormData
-    console.log('Trying fallback test with FormData...');
-    try {
-      const testData = new FormData();
-      testData.append('access_key', '59f4edff-8d09-480e-bde5-17e5328595af');
-      testData.append('name', 'Test User');
-      testData.append('email', 'test@example.com');
-      testData.append('subject', 'Test Subject');
-      testData.append('message', 'This is a fallback test message.');
-      
-      const fallbackResponse = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: testData
-      });
-      
-      if (fallbackResponse.ok) {
-        const fallbackData = await fallbackResponse.json();
-        console.log('✅ Fallback test successful:', fallbackData);
-      } else {
-        console.log('❌ Fallback test failed:', fallbackResponse.status);
-      }
-    } catch (fallbackError) {
-      console.log('❌ Fallback test also failed:', fallbackError);
-    }
-  }
-}
+// Test function disabled to prevent sending test emails
+// async function testWeb3FormsConnection() {
+//   // Test function removed to prevent duplicate email submissions
+//   console.log('Test function disabled to prevent double emails');
+// }
