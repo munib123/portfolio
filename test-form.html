@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3Forms Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #081b29;
+            color: white;
+        }
+        .form-container {
+            background: #112e42;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #00abf0;
+            border-radius: 5px;
+            background: transparent;
+            color: white;
+        }
+        button {
+            background: #00abf0;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0088cc;
+        }
+        .message {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+        }
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Web3Forms Test</h2>
+        <div id="message" class="message"></div>
+        
+        <form id="test-form">
+            <input type="hidden" name="access_key" value="59f4edff-8d09-480e-bde5-17e5328595af">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="text" name="subject" placeholder="Subject" required>
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit" id="submit-btn">Send Test Message</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('test-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const messageDiv = document.getElementById('message');
+            
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            messageDiv.style.display = 'none';
+            
+            const formData = new FormData(this);
+            
+            console.log('Sending test form data:');
+            for (let [key, value] of formData.entries()) {
+                console.log(key + ':', value);
+            }
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                });
+                
+                console.log('Response status:', response.status);
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                const data = JSON.parse(responseText);
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    messageDiv.textContent = 'Success! Test message sent.';
+                    messageDiv.className = 'message success';
+                    messageDiv.style.display = 'block';
+                    this.reset();
+                } else {
+                    messageDiv.textContent = 'Error: ' + (data.message || 'Unknown error');
+                    messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                messageDiv.textContent = 'Error: ' + error.message;
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+            } finally {
+                submitBtn.textContent = 'Send Test Message';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

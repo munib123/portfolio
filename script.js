@@ -1,11 +1,3 @@
-// Loading animation
-window.addEventListener('load', () => {
-  const loadingOverlay = document.getElementById('loadingOverlay');
-  setTimeout(() => {
-    loadingOverlay.classList.add('hidden');
-  }, 1000);
-});
-
 // Enhanced Professional Loading System
 window.addEventListener('load', () => {
   const loadingOverlay = document.getElementById('loadingOverlay');
@@ -20,19 +12,159 @@ window.addEventListener('load', () => {
     // Remove from DOM after transition with enhanced cleanup
     setTimeout(() => {
       loadingOverlay.style.display = 'none';
+      // Initialize page navigation system
+      initializePageNavigation();
       // Trigger enhanced home section animations
       triggerEnhancedHomeAnimations();
-      // Initialize scroll-based animations
-      initializeScrollAnimations();
       // Initialize resume button
       initializeResumeButton();
       // Initialize project links
       initializeProjectLinks();
-      // Initialize navigation
-      initializeNavigation();
-    }, 800);
-  }, 1500);
+      // Initialize contact form
+      initializeContactForm();
+    }, 400);
+  }, 800);
 });
+
+// Page Navigation System
+let currentPage = 'home';
+let isAnimating = false;
+
+function initializePageNavigation() {
+  const navButtons = document.querySelectorAll('.nav-btn');
+  const pages = document.querySelectorAll('.page');
+  
+  // Set initial state
+  pages.forEach(page => {
+    if (page.id === 'home-page') {
+      page.classList.add('active');
+    } else {
+      page.classList.remove('active');
+    }
+  });
+  
+  // Add click handlers to navigation buttons
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (isAnimating) return;
+      
+      const targetPage = btn.dataset.page;
+      if (targetPage === currentPage) return;
+      
+      navigateToPage(targetPage);
+      updateActiveNavButton(btn);
+      
+      // Add click ripple effect
+      createNavButtonRipple(btn);
+    });
+  });
+  
+  console.log('Page navigation system initialized');
+}
+
+function navigateToPage(targetPage) {
+  if (isAnimating) return;
+  
+  isAnimating = true;
+  const currentPageElement = document.getElementById(`${currentPage}-page`);
+  const targetPageElement = document.getElementById(`${targetPage}-page`);
+  
+  if (!currentPageElement || !targetPageElement) {
+    isAnimating = false;
+    return;
+  }
+  
+  // Quick and smooth slide transition
+  currentPageElement.style.transition = 'all 0.4s var(--professional-ease)';
+  targetPageElement.style.transition = 'all 0.4s var(--professional-ease)';
+  
+  // Slide out current page
+  currentPageElement.style.transform = 'translateX(-50px)';
+  currentPageElement.style.opacity = '0';
+  
+  setTimeout(() => {
+    currentPageElement.classList.remove('active');
+    
+    // Prepare target page for entrance
+    targetPageElement.classList.add('active');
+    targetPageElement.style.transform = 'translateX(50px)';
+    targetPageElement.style.opacity = '0';
+    
+    // Small delay for smooth transition
+    requestAnimationFrame(() => {
+      // Slide in target page
+      targetPageElement.style.transform = 'translateX(0)';
+      targetPageElement.style.opacity = '1';
+      
+      // Complete animation and trigger page-specific effects
+      setTimeout(() => {
+        triggerPageAnimations(targetPage);
+        isAnimating = false;
+      }, 200);
+      
+      currentPage = targetPage;
+    });
+  }, 200);
+}
+
+function updateActiveNavButton(activeBtn) {
+  const navButtons = document.querySelectorAll('.nav-btn');
+  navButtons.forEach(btn => btn.classList.remove('active'));
+  activeBtn.classList.add('active');
+}
+
+function createNavButtonRipple(button) {
+  button.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+    
+    button.appendChild(ripple);
+    
+    setTimeout(() => {
+      ripple.remove();
+    }, 800);
+  });
+}
+
+function triggerPageAnimations(pageName) {
+  const pageElement = document.getElementById(`${pageName}-page`);
+  if (!pageElement) return;
+  
+  // Trigger animations based on page
+  switch(pageName) {
+    case 'home':
+      triggerEnhancedHomeAnimations();
+      break;
+    case 'about':
+      triggerAboutAnimations(pageElement);
+      break;
+    case 'education':
+      triggerEducationAnimations(pageElement);
+      break;
+    case 'experience':
+      triggerExperienceAnimations(pageElement);
+      break;
+    case 'skills':
+      triggerSkillsAnimations(pageElement);
+      break;
+    case 'projects':
+      triggerProjectsAnimations(pageElement);
+      break;
+    case 'certificates':
+      triggerCertificatesAnimations(pageElement);
+      break;
+    case 'contact':
+      triggerContactAnimations(pageElement);
+      break;
+  }
+}
 
 // Initialize Resume Button
 function initializeResumeButton() {
@@ -104,12 +236,12 @@ function showOpenNotification() {
 // Enhanced Home Section Animation Sequence
 function triggerEnhancedHomeAnimations() {
   const animationSequence = [
-    { selector: '.home-content h1', delay: 100, extraClass: 'slide-in-left' },
-    { selector: '.home-content .text-animate', delay: 400, extraClass: 'slide-in-right' },
-    { selector: '.home-content p', delay: 700, extraClass: 'fade-in-up' },
-    { selector: '.btn-box', delay: 1000, extraClass: 'bounce-in' },
-    { selector: '.home-sci', delay: 1300, extraClass: 'slide-in-bottom' },
-    { selector: '.pic', delay: 1600, extraClass: 'scale-in-rotate' }
+    { selector: '.home-content h1', delay: 50, extraClass: 'slide-in-left' },
+    { selector: '.home-content .text-animate', delay: 150, extraClass: 'slide-in-right' },
+    { selector: '.home-content p', delay: 250, extraClass: 'fade-in-up' },
+    { selector: '.btn-box', delay: 350, extraClass: 'bounce-in' },
+    { selector: '.home-sci', delay: 450, extraClass: 'slide-in-bottom' },
+    { selector: '.pic', delay: 550, extraClass: 'scale-in-rotate' }
   ];
 
   animationSequence.forEach(({ selector, delay, extraClass }) => {
@@ -120,6 +252,82 @@ function triggerEnhancedHomeAnimations() {
         addMicroInteractions(element);
       }
     }, delay);
+  });
+}
+
+// Page-specific animation functions
+function triggerAboutAnimations(pageElement) {
+  const animationSequence = [
+    { selector: '.heading', delay: 100, animation: 'fadeInUp' },
+    { selector: '.about-img', delay: 300, animation: 'scaleInRotate' },
+    { selector: '.about-content', delay: 600, animation: 'slideInRight' }
+  ];
+  
+  executeAnimationSequence(pageElement, animationSequence);
+}
+
+function triggerEducationAnimations(pageElement) {
+  const heading = pageElement.querySelector('.heading');
+  if (heading) animateElement(heading, 'fadeInUp', 100);
+  
+  const contents = pageElement.querySelectorAll('.education-content .content');
+  contents.forEach((content, index) => {
+    animateElement(content, 'slideInLeft', 300 + (index * 150));
+  });
+}
+
+function triggerExperienceAnimations(pageElement) {
+  const heading = pageElement.querySelector('.heading');
+  if (heading) animateElement(heading, 'fadeInUp', 100);
+  
+  const contents = pageElement.querySelectorAll('.education-content .content');
+  contents.forEach((content, index) => {
+    animateElement(content, 'slideInRight', 300 + (index * 150));
+  });
+}
+
+function triggerSkillsAnimations(pageElement) {
+  const heading = pageElement.querySelector('.heading');
+  if (heading) animateElement(heading, 'fadeInUp', 100);
+  
+  const skillBoxes = pageElement.querySelectorAll('.skill-box');
+  skillBoxes.forEach((box, index) => {
+    animateElement(box, 'bounceInScale', 300 + (index * 80));
+    addSkillBoxInteractions(box);
+  });
+}
+
+function triggerProjectsAnimations(pageElement) {
+  const heading = pageElement.querySelector('.heading');
+  if (heading) animateElement(heading, 'fadeInUp', 100);
+  
+  const projectBoxes = pageElement.querySelectorAll('.project-box');
+  projectBoxes.forEach((box, index) => {
+    animateElement(box, 'scaleInPerspective', 400 + (index * 200));
+    addProjectBoxInteractions(box);
+  });
+}
+
+function triggerCertificatesAnimations(pageElement) {
+  const heading = pageElement.querySelector('.heading');
+  if (heading) animateElement(heading, 'fadeInUp', 100);
+  
+  const certificateBoxes = pageElement.querySelectorAll('.certificate-box');
+  certificateBoxes.forEach((box, index) => {
+    animateElement(box, 'flipInY', 300 + (index * 100));
+  });
+  
+  const sliderControls = pageElement.querySelector('.slider-controls');
+  if (sliderControls) animateElement(sliderControls, 'slideInUp', 400);
+}
+
+function triggerContactAnimations(pageElement) {
+  const heading = pageElement.querySelector('.heading');
+  if (heading) animateElement(heading, 'fadeInUp', 100);
+  
+  const formElements = pageElement.querySelectorAll('.input-box, .textarea-field, .btn-box.btns');
+  formElements.forEach((element, index) => {
+    animateElement(element, 'slideInUp', 150 + (index * 75));
   });
 }
 
@@ -164,166 +372,6 @@ function addMicroInteractions(element) {
   }
 }
 
-// For Navigation Bar (Header of the webpage)
-let menuIcon = document.querySelector("#menu-icon");
-let navbar = document.querySelector(".navbar");
-
-menuIcon.onclick = () => {
-  menuIcon.classList.toggle("bx-x");
-  navbar.classList.toggle("active");
-};
-
-// Professional Section Reveal System
-let sections = document.querySelectorAll("section");
-let navLinks = document.querySelectorAll("header nav a");
-
-// Enhanced Professional Section Reveal System with Intersection Observer
-function initializeScrollAnimations() {
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '-50px 0px -50px 0px'
-  };
-
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const section = entry.target;
-        const sectionId = section.getAttribute('id');
-        
-        // Add show-animate class with enhanced timing
-        section.classList.add('show-animate');
-        
-        // Trigger sophisticated section-specific animations
-        triggerEnhancedSectionAnimations(sectionId, section);
-        
-        // Update active navigation with smooth transition
-        updateActiveNavigation(sectionId);
-      }
-    });
-  }, observerOptions);
-
-  // Observe all sections
-  document.querySelectorAll('section').forEach(section => {
-    sectionObserver.observe(section);
-  });
-}
-
-// Enhanced navigation update with smooth transitions
-function updateActiveNavigation(sectionId) {
-  const navLinks = document.querySelectorAll("header nav a");
-  
-  navLinks.forEach((link) => {
-    link.classList.remove("active");
-    link.style.transform = 'translateY(0)';
-  });
-  
-  // Find the link that corresponds to the current section
-  const activeLink = document.querySelector(`header nav a[href="#${sectionId}"]`);
-  if (activeLink) {
-    activeLink.classList.add("active");
-    activeLink.style.transform = 'translateY(-2px)';
-    
-    // Add ripple effect
-    createRippleEffect(activeLink);
-  }
-}
-
-// Create ripple effect for navigation
-function createRippleEffect(element) {
-  const ripple = document.createElement('span');
-  ripple.classList.add('nav-ripple');
-  ripple.style.left = '50%';
-  ripple.style.top = '50%';
-  element.appendChild(ripple);
-  
-  setTimeout(() => {
-    ripple.remove();
-  }, 600);
-}
-
-// Enhanced Section-Specific Animation System
-function triggerEnhancedSectionAnimations(sectionId, sectionElement) {
-  
-  if (sectionId === 'about') {
-    const animationSequence = [
-      { selector: '.heading', delay: 100, animation: 'fadeInUp' },
-      { selector: '.about-img', delay: 300, animation: 'scaleInRotate' },
-      { selector: '.about-content', delay: 600, animation: 'slideInRight' }
-    ];
-    
-    executeAnimationSequence(sectionElement, animationSequence);
-  }
-  
-  if (sectionId === 'education') {
-    const heading = sectionElement.querySelector('.heading');
-    if (heading) animateElement(heading, 'fadeInUp', 100);
-    
-    const contents = sectionElement.querySelectorAll('.education-content .content');
-    contents.forEach((content, index) => {
-      animateElement(content, 'slideInLeft', 300 + (index * 150));
-    });
-  }
-  
-  if (sectionId === 'experience') {
-    const heading = sectionElement.querySelector('.heading');
-    if (heading) animateElement(heading, 'fadeInUp', 100);
-    
-    const contents = sectionElement.querySelectorAll('.education-content .content');
-    contents.forEach((content, index) => {
-      animateElement(content, 'slideInRight', 300 + (index * 150));
-    });
-  }
-  
-  if (sectionId === 'skills') {
-    const heading = sectionElement.querySelector('.heading');
-    if (heading) animateElement(heading, 'fadeInUp', 100);
-    
-    const skillBoxes = sectionElement.querySelectorAll('.skill-box');
-    skillBoxes.forEach((box, index) => {
-      animateElement(box, 'bounceInScale', 300 + (index * 80));
-      
-      // Add enhanced hover interactions
-      addSkillBoxInteractions(box);
-    });
-  }
-  
-  if (sectionId === 'projects') {
-    const heading = sectionElement.querySelector('.heading');
-    if (heading) animateElement(heading, 'fadeInUp', 100);
-    
-    const projectBoxes = sectionElement.querySelectorAll('.project-box');
-    projectBoxes.forEach((box, index) => {
-      animateElement(box, 'scaleInPerspective', 400 + (index * 200));
-      
-      // Add enhanced project interactions
-      addProjectBoxInteractions(box);
-    });
-  }
-
-  if (sectionId === 'contact') {
-    const heading = sectionElement.querySelector('.heading');
-    if (heading) animateElement(heading, 'fadeInUp', 100);
-    
-    const formElements = sectionElement.querySelectorAll('.input-box, .textarea-field, .btn-box.btns');
-    formElements.forEach((element, index) => {
-      animateElement(element, 'slideInUp', 300 + (index * 150));
-    });
-  }
-  
-  if (sectionId === 'certificates') {
-    const heading = sectionElement.querySelector('.heading');
-    if (heading) animateElement(heading, 'fadeInUp', 100);
-    
-    const certificateBoxes = sectionElement.querySelectorAll('.certificate-box');
-    certificateBoxes.forEach((box, index) => {
-      animateElement(box, 'flipInY', 300 + (index * 100));
-    });
-    
-    const sliderControls = sectionElement.querySelector('.slider-controls');
-    if (sliderControls) animateElement(sliderControls, 'slideInUp', 800);
-  }
-}
-
 // Enhanced animation execution helper
 function animateElement(element, animationType, delay) {
   setTimeout(() => {
@@ -333,7 +381,7 @@ function animateElement(element, animationType, delay) {
       element.style.visibility = 'visible';
       element.style.transform = getAnimationTransform(animationType);
       element.style.filter = 'blur(0)';
-      element.style.transition = 'all 1.2s var(--professional-ease)';
+      element.style.transition = 'all 0.4s var(--professional-ease)';
     }
   }, delay);
 }
@@ -405,8 +453,7 @@ function initializeProjectLinks() {
     link.style.zIndex = '100';
     link.style.pointerEvents = 'auto';
     
-    // Remove the duplicate click handler since the default browser behavior works
-    // Just add enhanced hover effects
+    // Add enhanced hover effects
     link.addEventListener('mouseenter', function() {
       this.style.transform = 'translateY(-2px) scale(1.05)';
       this.style.boxShadow = '0 8px 25px rgba(0, 171, 240, 0.4)';
@@ -419,76 +466,33 @@ function initializeProjectLinks() {
   });
 }
 
-// Initialize navigation functionality
-function initializeNavigation() {
-  const navLinks = document.querySelectorAll('header nav a');
+// Enhanced Sticky Header Management (simplified without mobile menu)
+window.addEventListener('scroll', () => {
+  const header = document.querySelector("header");
+  const scrollTop = window.scrollY;
   
-  if (navLinks.length === 0) {
-    console.log('No navigation links found, retrying...');
-    setTimeout(initializeNavigation, 500);
-    return;
+  // Enhanced sticky header with blur effect
+  if (scrollTop > 100) {
+    header.classList.add("sticky");
+    header.style.background = 'rgba(8, 27, 41, 0.95)';
+    header.style.backdropFilter = 'blur(20px)';
+    header.style.boxShadow = '0 4px 30px rgba(0, 171, 240, 0.1)';
+  } else {
+    header.classList.remove("sticky");
+    header.style.background = 'transparent';
+    header.style.backdropFilter = 'blur(0px)';
+    header.style.boxShadow = 'none';
   }
   
-  navLinks.forEach(link => {
-    // Remove any existing click listeners to prevent duplicates
-    link.removeEventListener('click', handleNavClick);
-    link.addEventListener('click', handleNavClick);
-  });
-  
-  window.navigationInitialized = true;
-  console.log('Navigation initialized successfully with', navLinks.length, 'links');
-}
-
-// Navigation click handler
-function handleNavClick(e) {
-  e.preventDefault();
-  
-  // Get the target section id from href
-  const targetId = this.getAttribute('href').substring(1);
-  const targetSection = document.getElementById(targetId);
-  
-  if (targetSection) {
-    // Calculate offset for fixed header
-    const header = document.querySelector('.header');
-    const headerHeight = header ? header.offsetHeight : 80;
-    const targetPosition = targetSection.offsetTop - headerHeight - 10;
-    
-    // Smooth scroll to target section
-    window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth'
-    });
-    
-    // Update active navigation
-    updateActiveNavigation(targetId);
-    
-    // Close mobile menu if open
-    const navbar = document.querySelector('.navbar');
-    const menuIcon = document.querySelector('#menu-icon');
-    if (navbar && navbar.classList.contains('active')) {
-      navbar.classList.remove('active');
-      if (menuIcon) {
-        menuIcon.classList.remove('bx-x');
-      }
-    }
+  // Hide/show header on scroll direction
+  let lastScrollTop = window.lastScrollTop || 0;
+  if (scrollTop > lastScrollTop && scrollTop > 200) {
+    header.style.transform = 'translateY(-100%)';
+  } else {
+    header.style.transform = 'translateY(0)';
   }
-}
-
-// Enhanced smooth scroll with offset for fixed header
-function smoothScrollToSection(targetId) {
-  const targetSection = document.getElementById(targetId);
-  const header = document.querySelector('.header');
-  
-  if (targetSection && header) {
-    const headerHeight = header.offsetHeight;
-    const targetPosition = targetSection.offsetTop - headerHeight - 20;
-    
-    window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth'
-    });
-  }
-}
+  window.lastScrollTop = scrollTop;
+});
 
 // Create click ripple effect
 function createClickRipple(event, element) {
@@ -648,81 +652,6 @@ document.addEventListener('DOMContentLoaded', function() {
   startAutoPlay(); // Start auto-play
 });
 
-// Enhanced Sticky Header and Scroll Management
-window.addEventListener('scroll', () => {
-  const header = document.querySelector("header");
-  const scrollTop = window.scrollY;
-  
-  // Enhanced sticky header with blur effect
-  if (scrollTop > 100) {
-    header.classList.add("sticky");
-    header.style.background = 'rgba(8, 27, 41, 0.95)';
-    header.style.backdropFilter = 'blur(20px)';
-    header.style.boxShadow = '0 4px 30px rgba(0, 171, 240, 0.1)';
-  } else {
-    header.classList.remove("sticky");
-    header.style.background = 'transparent';
-    header.style.backdropFilter = 'blur(0px)';
-    header.style.boxShadow = 'none';
-  }
-  
-  // Hide/show header on scroll direction
-  let lastScrollTop = window.lastScrollTop || 0;
-  if (scrollTop > lastScrollTop && scrollTop > 200) {
-    header.style.transform = 'translateY(-100%)';
-  } else {
-    header.style.transform = 'translateY(0)';
-  }
-  window.lastScrollTop = scrollTop;
-  
-  // Remove mobile menu on scroll
-  const menuIcon = document.querySelector("#menu-icon");
-  const navbar = document.querySelector(".navbar");
-  if (menuIcon && navbar) {
-    menuIcon.classList.remove("bx-x");
-    navbar.classList.remove("active");
-  }
-  
-  // Footer animation
-  const footer = document.querySelector("footer");
-  if (footer) {
-    const footerOffset = window.innerHeight + scrollTop - document.documentElement.scrollHeight;
-    footer.classList.toggle("show-animate", footerOffset >= -50);
-  }
-});
-
-// Enhanced Mobile Menu with Animation
-if (menuIcon && navbar) {
-  menuIcon.onclick = () => {
-    const isActive = navbar.classList.contains("active");
-    
-    // Animate menu icon
-    menuIcon.classList.toggle("bx-x");
-    
-    // Animate navbar with enhanced effects
-    navbar.classList.toggle("active");
-    
-    if (!isActive) {
-      // Opening animation
-      navbar.style.transform = 'translateY(0)';
-      navbar.style.opacity = '1';
-      
-      // Animate individual nav items
-      const navItems = navbar.querySelectorAll('a');
-      navItems.forEach((item, index) => {
-        setTimeout(() => {
-          item.style.transform = 'translateX(0)';
-          item.style.opacity = '1';
-        }, index * 100);
-      });
-    } else {
-      // Closing animation
-      navbar.style.transform = 'translateY(-20px)';
-      navbar.style.opacity = '0';
-    }
-  };
-}
-
 // Add ripple keyframe animation to CSS
 const rippleStyle = document.createElement('style');
 rippleStyle.textContent = `
@@ -748,48 +677,210 @@ rippleStyle.textContent = `
 `;
 document.head.appendChild(rippleStyle);
 
-// Test navigation functionality
-function testNavigation() {
-  console.log('Testing navigation functionality...');
-  const navLinks = document.querySelectorAll('header nav a');
-  console.log('Found navigation links:', navLinks.length);
-  
-  navLinks.forEach((link, index) => {
-    const href = link.getAttribute('href');
-    const targetId = href ? href.substring(1) : 'none';
-    const targetSection = document.getElementById(targetId);
-    console.log(`Link ${index}: href="${href}", target="${targetId}", section found:`, !!targetSection);
+// Keyboard accessibility for menu icon
+const menuIconEl = document.getElementById('menu-icon');
+if (menuIconEl) {
+  menuIconEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      menuIconEl.click();
+    }
   });
 }
 
-// Initialize everything when DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM Content Loaded - Initializing navigation...');
+// Keyboard accessibility for page navigation
+document.addEventListener('keydown', function(e) {
+  if (isAnimating) return;
   
-  // Small delay to ensure all elements are rendered
-  setTimeout(() => {
-    initializeNavigation();
-    initializeProjectLinks();
-    testNavigation();
-  }, 100);
-});
-
-// Fallback navigation initialization - run after a delay to ensure everything is loaded
-setTimeout(() => {
-  if (!window.navigationInitialized) {
-    console.log('Fallback navigation initialization...');
-    initializeNavigation();
-    window.navigationInitialized = true;
-  }
-}, 2000);
-
-// Also initialize on window load as a final fallback
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    if (!window.navigationInitialized) {
-      console.log('Window load navigation initialization...');
-      initializeNavigation();
-      window.navigationInitialized = true;
+  const pages = ['home', 'about', 'education', 'experience', 'skills', 'projects', 'certificates', 'contact'];
+  const currentIndex = pages.indexOf(currentPage);
+  
+  if (e.key === 'ArrowLeft' && currentIndex > 0) {
+    const targetPage = pages[currentIndex - 1];
+    const navBtn = document.querySelector(`[data-page="${targetPage}"]`);
+    if (navBtn) {
+      navigateToPage(targetPage);
+      updateActiveNavButton(navBtn);
     }
-  }, 500);
+  } else if (e.key === 'ArrowRight' && currentIndex < pages.length - 1) {
+    const targetPage = pages[currentIndex + 1];
+    const navBtn = document.querySelector(`[data-page="${targetPage}"]`);
+    if (navBtn) {
+      navigateToPage(targetPage);
+      updateActiveNavButton(navBtn);
+    }
+  }
 });
+
+// Web3Forms Contact Form Integration
+function initializeContactForm() {
+  const form = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const formMessage = document.getElementById('form-message');
+
+  if (!form || !submitBtn || !formMessage) {
+    console.error('Contact form elements not found');
+    return;
+  }
+
+  console.log('Contact form initialized successfully');
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Validate form before submission
+    if (!validateForm()) {
+      showMessage('Please fill in all required fields correctly.', 'error');
+      return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    hideMessage();
+
+    // Get form data
+    const formData = new FormData(form);
+    
+    // Debug: Log form data
+    console.log('Form submission started...');
+    console.log('Access key:', formData.get('access_key'));
+    console.log('Name:', formData.get('name'));
+    console.log('Email:', formData.get('email'));
+    console.log('Phone:', formData.get('phone'));
+    console.log('Subject:', formData.get('subject'));
+    console.log('Message:', formData.get('message'));
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json'
+        },
+        body: formData
+      });
+
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse response as JSON:', parseError);
+        throw new Error('Invalid response from server');
+      }
+
+      console.log('Parsed response data:', data);
+
+      if (response.ok && data.success) {
+        showMessage('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
+        form.reset();
+      } else {
+        console.error('Web3Forms error:', data);
+        const errorMessage = data.message || `Server returned status ${response.status}`;
+        showMessage(`Failed to send message: ${errorMessage}`, 'error');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      
+      // More specific error messages
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        showMessage('Network error. Please check your internet connection and try again.', 'error');
+      } else if (error.message.includes('Invalid response')) {
+        showMessage('Server error. Please try again in a few moments.', 'error');
+      } else {
+        showMessage(`Error: ${error.message}. Please try again or contact me directly.`, 'error');
+      }
+    } finally {
+      // Remove loading state
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  });
+
+  function validateForm() {
+    const name = form.querySelector('input[name="name"]').value.trim();
+    const email = form.querySelector('input[name="email"]').value.trim();
+    const subject = form.querySelector('input[name="subject"]').value.trim();
+    const message = form.querySelector('textarea[name="message"]').value.trim();
+
+    if (!name || !email || !subject || !message) {
+      return false;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function showMessage(message, type) {
+    formMessage.textContent = message;
+    formMessage.className = `form-message ${type}`;
+    formMessage.style.display = 'block';
+    
+    // Auto-hide success messages after 5 seconds
+    if (type === 'success') {
+      setTimeout(() => {
+        hideMessage();
+      }, 5000);
+    }
+  }
+
+  function hideMessage() {
+    formMessage.style.display = 'none';
+    formMessage.className = 'form-message';
+  }
+}
+
+// Initialize contact form when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  initializeContactForm();
+  
+  // Test Web3Forms connection (remove this after testing)
+  testWeb3FormsConnection();
+});
+
+// Test function to validate Web3Forms setup
+async function testWeb3FormsConnection() {
+  console.log('Testing Web3Forms connection...');
+  
+  const testData = new FormData();
+  testData.append('access_key', '59f4edff-8d09-480e-bde5-17e5328595af');
+  testData.append('name', 'Test User');
+  testData.append('email', 'test@example.com');
+  testData.append('subject', 'Test Subject');
+  testData.append('message', 'This is a test message to verify Web3Forms integration.');
+  
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json'
+      },
+      body: testData
+    });
+    
+    const responseText = await response.text();
+    console.log('Test response status:', response.status);
+    console.log('Test response text:', responseText);
+    
+    const data = JSON.parse(responseText);
+    console.log('Test response data:', data);
+    
+    if (data.success) {
+      console.log('✅ Web3Forms connection successful!');
+    } else {
+      console.log('❌ Web3Forms test failed:', data.message);
+    }
+  } catch (error) {
+    console.log('❌ Web3Forms test error:', error);
+  }
+}
